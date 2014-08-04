@@ -26,7 +26,7 @@ my $frameRate;
 my $mediaType;
 my $timeCode;
 
-$fout = "VideoInfo.csv";
+$fout = "VideoAudit.csv";
 open ($fh_out, ">", $fout) || die "Couldn't open '".$fout."'for writing because: ".$!;
 
 # Write a file header
@@ -68,21 +68,29 @@ foreach my $mpgName (@content) {
         # average frame rate
         elsif ( ($i =~ "avg_frame_rate=") && ($mediaType =~ "video") ) {
             chomp $i;
+            # Remove carriage return (^M)
+            $i =~ s/\r//g;
             $frameRate = $i;
         }
         # width
         elsif ($i =~ "width"){
             chomp $i;
+            # Remove carriage return (^M)
+            $i =~ s/\r//g;
             $vidWidth=$i;
         }
         # height 
         elsif ($i =~ "height"){
             chomp $i;
+            # Remove carriage return (^M)
+            $i =~ s/\r//g;
             $vidHeight=$i;
         }
         # timecode
         elsif ($i =~ "timecode"){
             chomp $i;
+            # Remove carriage return (^M)
+            $i =~ s/\r//g;
             $timeCode=$i;
         }
     }
@@ -92,6 +100,8 @@ foreach my $mpgName (@content) {
     foreach my $i (@probeArr){
         if ($i =~ "bit_rate"){
             chomp $i;
+            # Remove carriage return (^M)
+            $i =~ s/\r//g;
             $vidBR = $i;
         }
     }
@@ -112,3 +122,4 @@ sub mpgWanted {
     }
     return;
 }
+
