@@ -109,12 +109,12 @@ foreach my $mpgName (@content) {
         }
     }
 
-    # Look for errors with FFMPEG
-    $vidError = "No"; # Reset for each video file
-    $errName = $name . ".err";
+    # look for errors with FFMPEG
+    $vidError = "No"; # reset for each video file
+    $errName = $fileDataset . $name . ".err";
     system("ffmpeg -v error -i $mpgName -f null - >$errName 2>&1");
     open $FILEIN, $errName or die "Could not open $errName: $!";
-    # Parse the error log file to see if any errors exist
+    # parse the error log file to see if any errors exist
     while (my $line = <$FILEIN>){
         if ($line =~ "Error"){
             $vidError= "Yes";
