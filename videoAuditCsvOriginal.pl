@@ -33,7 +33,7 @@ $fout = "VideoAudit.csv";
 open ($FILEOUT, ">", $fout) || die "Couldn't open '".$fout."' for writing because: ".$!;
 
 # Write a file header
-say $FILEOUT "Project and Dataset, Video File, MPEG Container, Resolution Width, Resolution Height, Bitrate, Framerate, First Timecode, Video Error";
+say $FILEOUT "Project and Dataset, Video File, MPEG Container, Resolution Width, Resolution Height, Bitrate, Framerate, First Timecode";
 
 # find .mpg files recursively from this directory
 find( \&mpgWanted, '.');
@@ -109,21 +109,8 @@ foreach my $mpgName (@content) {
         }
     }
 
-    # look for errors with FFMPEG
-    $vidError = "No"; # reset for each video file
-    $errName = $fileDataset . $name . ".err";
-    system("ffmpeg -v error -i $mpgName -f null - >$errName 2>&1");
-    open $FILEIN, $errName or die "Could not open $errName: $!";
-    # parse the error log file to see if any errors exist
-    while (my $line = <$FILEIN>){
-        if ($line =~ "Error"){
-            $vidError= "Yes";
-        }
-    }
-    close ($FILEIN);
-
     # write to output file
-    say $FILEOUT "$fileDataset, $name$ext, $container, $vidWidth, $vidHeight, $vidBR, $frameRate, $timeCode, $vidError";
+    say $FILEOUT "$fileDataset, $name$ext, $container, $vidWidth, $vidHeight, $vidBR, $frameRate, $timeCode";
     say "$filePathName ... done";
     
 }
@@ -137,5 +124,4 @@ sub mpgWanted {
     }
     return;
 }
-
 
