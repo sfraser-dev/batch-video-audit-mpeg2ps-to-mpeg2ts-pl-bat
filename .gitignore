@@ -8,6 +8,7 @@
 *.ts
 *.ini
 DATA_20140615155302301\
+audits\
 
 
 *.swp
